@@ -1,0 +1,25 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+  <meta charset="utf-8">
+  <title>Add event</title>
+  <style type="text/css">
+            body {
+                width: 800px;
+                margin: auto;
+            }
+        </style>
+</head>
+<body>
+<header>
+  <h1>Event details</h1>
+</header>
+<main>
+  <h3 th:text="'Name:'+${event.getName}"></h3>
+  <h3 th:text="'Description:'+${event.getDescription()}"></h3>
+  <h3 th:text="'Score:'+${event.getPopularityScore()}"></h3>
+  <h3 th:text="'Location:'+${event.getLocation().getName()}"></h3>
+
+</main>
+</body>
+</html>

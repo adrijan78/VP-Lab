@@ -1,0 +1,35 @@
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="http://www.w3.org/1999/xhtml">
+<head>
+    <meta charset="utf-8">
+    <title>Add event</title>
+    <style type="text/css">
+            body {
+                width: 800px;
+                margin: auto;
+            }
+        </style>
+</head>
+<body>
+<header>
+    <h1>Add an event</h1>
+</header>
+<main>
+    <form th:action="@{${event != null ? '/events/edit/' + event.getId() : '/events/add'}}" th:method="POST">
+        <label for="name">Event Name</label>
+        <input id="name" th:name="name" th:value="${event?.getName()}">
+        <label for="description">Event Description</label>
+        <input id="description" th:name="description" th:value="${event?.getDescription()}">
+        <label for="score">Event Name</label>
+        <input id="score" th:name="score" th:value="${event?.getPopularityScore()}">
+        <select name="location">
+            <option th:each="location : ${locations}"
+                    th:text="${location.getName()}"
+                    th:value="${location.getId()}"
+                    th:selected="${event?.getLocation()?.getName() == location.getName()}"></option>
+        </select>
+        <input type="submit" text="add event">
+    </form>
+</main>
+</body>
+</html>
