@@ -24,7 +24,7 @@
         <input type="submit" value="filter">
     </form>
     <form th:method="GET" th:action="@{/events/add-form}">
-        <input th:type="submit" value="Add event">
+        <input th:type="submit" value="Add event" sec:authorize="hasRole('ROLE_ADMIN')">
     </form>
         <h2>Choose an event:</h2>
         <h3 th:text="${error}" style="color: red"></h3>
@@ -39,10 +39,10 @@
                 <input th:type="submit" th:value="Details">
             </form>
             <form th:method="GET" th:action="@{'/events/edit-form/{eventId}' (eventId = ${event.getId()})}">
-                <input th:type="submit" th:value="Edit">
+                <input th:type="submit" th:value="Edit" sec:authorize="hasRole('ROLE_ADMIN')">
             </form>
-            <form th:method="POST" th:action="@{'/events/delete/{eventId}' (eventId = ${event.getId()})}">
-                <input th:type="submit" th:value="Delete">
+            <form th:method="POST" th:action="@{'/events/delete/{eventId}'  (eventId = ${event.getId()})}">
+                <input th:type="submit" th:value="Delete" sec:authorize="hasRole('ROLE_ADMIN')">
             </form>
 <!--            <form method="POST" th:action="@{'/news/{id}' (id=${none?.getId()})}">-->
         </div>

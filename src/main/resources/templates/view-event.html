@@ -1,25 +1,85 @@
-<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org"
-      xmlns:sec="http://www.w3.org/1999/xhtml">
+<html lang="en" xmlns="http://www.w3.org/1999/xhtml" xmlns:th="http://www.thymeleaf.org">
 <head>
-  <meta charset="utf-8">
-  <title>Add event</title>
-  <style type="text/css">
-            body {
-                width: 800px;
-                margin: auto;
-            }
-        </style>
+  <meta charset="UTF-8"/>
+  <title>Events</title>
+  <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css"
+        integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+  <script src="https://code.jquery.com/jquery-3.3.1.slim.min.js"
+          integrity="sha384-q8i/X+965DzO0rT7abK41JStQIAqVgRVzpbzo5smXKp4YfRvH+8abtTE1Pi6jizo"
+          crossorigin="anonymous"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"
+          integrity="sha384-UO2eT0CpHqdSJQ6hJty5KVphtPhzWj9WO1clHTMGa3JDZwrnQq4sF86dIHNDz0W1"
+          crossorigin="anonymous"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"
+          integrity="sha384-JjSmVgyd0p3pXB1rRibZUAYoIIy6OrQ6VrjIEaFf/nJGzIxFDsf4x0xIM+B07jRM"
+          crossorigin="anonymous"></script>
+  <script src="https://kit.fontawesome.com/e59232f0a1.js" crossorigin="anonymous"></script>
 </head>
 <body>
-<header>
-  <h1>Event details</h1>
-</header>
-<main>
-  <h3 th:text="'Name:'+${event.getName}"></h3>
-  <h3 th:text="'Description:'+${event.getDescription()}"></h3>
-  <h3 th:text="'Score:'+${event.getPopularityScore()}"></h3>
-  <h3 th:text="'Location:'+${event.getLocation().getName()}"></h3>
 
-</main>
+<div xmlns:th="http://www.thymeleaf.org">
+
+  <div class="container pt-5">
+    <div class="row">
+      <div class="col-md-5">
+        <form th:action="@{${event == null ? '/events/add' : '/events/edit/{eventId}'} (eventId=${event?.getId()}) }" method="POST">
+
+
+          <div class="form-group">
+            <label for="name">Event name</label>
+            <input type="text"
+                   th:disabled="isInDetailsMode"
+                   class="form-control"
+                   id="name"
+                   name="name"
+                   th:value="(${event} != null ? ${event.getName()} : '')"
+                   required
+                   placeholder="Enter event name">
+          </div>
+          <div class="form-group">
+            <label for="description">Event Description</label>
+            <input type="text"
+                   th:disabled="isInDetailsMode"
+                   class="form-control"
+                   id="description"
+                   name="description"
+                   th:value="(${event} != null ? ${event.getDescription()} : '')"
+                   placeholder="Enter a description for the event">
+          </div>
+          <div class="form-group">
+            <label for="popularityScore">Popularity</label>
+            <input type="text"
+                   th:disabled="isInDetailsMode"
+                   class="form-control"
+                   id="popularityScore"
+                   name="popularityScore"
+                   th:value="(${event} != null ? ${event.getPopularityScore()} : '')"
+                   placeholder="Enter popularity score for this event">
+          </div>
+          <div class="form-group">
+            <label>Locations</label>
+            <select name="location" th:disabled="isInDetailsMode" class="form-control">
+              <option th:if="${event} != null"
+                      th:selected="${event.getLocation() != null &&
+                                event.getLocation().getId() == loc.getId()}"
+                      th:each="loc : ${locations}"
+                      th:value="${loc.getId()}"
+                      th:text="${loc.getName()}">
+              </option>
+              <option th:if="${event} == null"
+                      th:each="loc : ${locations}"
+                      th:value="${loc.getId()}"
+                      th:text="${loc.getName()}">
+              </option>
+            </select>
+          </div>
+          <button th:if="!isInDetailsMode" id="submit" type="submit" class="btn btn-primary">Submit</button>
+          <a type="button" class="btn btn-secondary" href="/events">Back</a>
+        </form>
+      </div>
+    </div>
+  </div>
+</div>
+
 </body>
 </html>
